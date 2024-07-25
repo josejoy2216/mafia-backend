@@ -1,43 +1,6 @@
 // Import necessary models and utilities
 const Room = require('../models/Room');
 
-// // Helper function to check win conditions
-// const checkWinConditions = async (roomId) => {
-//   const room = await Room.findById(roomId).populate('players');
-//   if (!room) {
-//     throw new Error('Room not found');
-//   }
-
-//   const players = room.players;
-//   const alivePlayers = players.filter(player => player.status === 'alive');
-
-//   // Count mafia and civilian/police players
-//   let mafiaCount = 0;
-//   let civilianCount = 0;
-//   let policeCount = 0;
-//   alivePlayers.forEach(player => {
-//     if (player.role === 'mafia') {
-//       mafiaCount++;
-//     } else if (player.role === 'civilian') {
-//       civilianCount++;
-//     } else if (player.role === 'police') {
-//       policeCount++;
-//     }
-//   });
-
-//   // Win conditions
-//   if (mafiaCount >= alivePlayers.length / 2) {
-//     // Mafia wins if they equal or outnumber civilians/police
-//     return 'mafia';
-//   } else if (mafiaCount === 0) {
-//     // Citizens/police win if all mafia are dead
-//     return 'citizens/police';
-//   }
-
-//   return null; // Game continues
-// };
-
-// Controller methods
 const gameController = {
   // Start the game (only host can start)
   startGame: async (req, res) => {
