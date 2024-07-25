@@ -26,7 +26,7 @@ app.use('/api/night-action/police/', roomRoutes);
 const server = http.createServer(app);
 socket(server);
 
-mongoose.connect('mongodb+srv://root:root@cluster0.8ft6z9g.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect(process.env.MONGODB_URL)
   .then(() => {
     server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
