@@ -6,6 +6,7 @@ const playerSchema = new mongoose.Schema({
   status: { type: String, enum: ['alive', 'dead', 'spectator'], default: 'alive' },
   isAlive: { type: Boolean, default: true },
   canVote: { type: Boolean, default: true },
+  hasVoted: { type: Boolean, default: false },
   votes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }] // IDs of players who voted for this player
 });
 
