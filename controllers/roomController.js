@@ -12,6 +12,20 @@ const shuffleArray = (array) => {
   return array;
 };
 
+// Define the deleteRoom function
+const deleteRoom = async (roomId) => {
+  try {
+    console.log(`Attempting to delete room with ID: ${roomId}`);
+    const deletedRoom = await Room.findByIdAndDelete(roomId);
+    if (deletedRoom) {
+      console.log(`Room ${roomId} successfully deleted.`);
+    } else {
+      console.log(`Room ${roomId} not found, possibly already deleted.`);
+    }
+  } catch (error) {
+    console.error(`Error deleting room ${roomId}:`, error);
+  }
+};
 
 // Controller methods
 const roomController = {
@@ -19,7 +33,7 @@ const roomController = {
   createRoom: async (req, res) => {
     try {
       const { hostName } = req.body;
-      
+
       if (!hostName) {
         throw new Error('Host name is required');
       }
@@ -29,19 +43,29 @@ const roomController = {
 
       // Create a new ObjectId for the host/player
       const hostPlayerId = new mongoose.Types.ObjectId();
-      
+
       // Create a new room with the host and room code
       const newRoom = new Room({
         host: hostPlayerId, // Embedded host player
         code: roomCode,
         players: [{ _id: hostPlayerId, name: hostName }], // Add host to players array
-        game: {room: null} // Initialize an empty game object
+        game: { room: null } // Initialize an empty game object
       });
 
-       // Update the game room reference
-       newRoom.game.room = newRoom._id;
+      // Update the game room reference
+      newRoom.game.room = newRoom._id;
 
       await newRoom.save();
+
+      // Schedule room deletion after 50 minutes
+      setTimeout(async () => {
+        try {
+          await deleteRoom(newRoom._id);
+          console.log(`Room ${newRoom._id} deleted after 50 minutes.`);
+        } catch (error) {
+          console.error(`Failed to delete room ${newRoom._id}:`, error);
+        }
+      }, 50 * 60 * 1000); // 50 minutes in milliseconds
 
       res.status(201).json(newRoom);
     } catch (err) {
@@ -50,8 +74,8 @@ const roomController = {
     }
   },
 
-   // Delete room by ID ------------------------------------
-   deleteRoomById: async (req, res) => {
+  // Delete room by ID ------------------------------------
+  deleteRoomById: async (req, res) => {
     try {
       const roomId = req.params.roomId;
       console.log(`Received request to delete room ID: ${roomId}`);
@@ -131,17 +155,17 @@ const roomController = {
   },
 
   //get room details ----------------
-  getRoomDetails : async (req, res) => {
+  getRoomDetails: async (req, res) => {
     try {
       const { roomId } = req.params;
-  
+
       // Populate room details including host, players, and game actions
       const room = await Room.findById(roomId).exec();
-  
+
       if (!room) {
         return res.status(404).json({ error: 'Room not found' });
       }
-  
+
       res.json(room); // Return the entire room details
     } catch (err) {
       console.error('Error fetching room details:', err);
