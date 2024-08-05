@@ -54,7 +54,7 @@ router.post('/night-action/police/:roomId/:userId',(req, res, next) => {
 }, gameController.handleNightActionPolice);
 
 // New routes for nomination and voting
- router.post('/nominate/:roomId', gameController.handleNomination);
+router.post('/nominate/:roomId', gameController.handleNomination);
 
  router.post('/vote/:roomId',  (req, res, next) => {
   console.log(`Received request to start vote room with code: ${req.params.roomId}`);

@@ -61,11 +61,11 @@ const roomController = {
       setTimeout(async () => {
         try {
           await deleteRoom(newRoom._id);
-          console.log(`Room ${newRoom._id} deleted after 50 minutes.`);
+          console.log(`Room ${newRoom._id} deleted after 30 minutes.`);
         } catch (error) {
           console.error(`Failed to delete room ${newRoom._id}:`, error);
         }
-      }, 50 * 60 * 1000); // 50 minutes in milliseconds
+      }, 30 * 60 * 1000); // 30 minutes in milliseconds
 
       res.status(201).json(newRoom);
     } catch (err) {
