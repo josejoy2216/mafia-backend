@@ -70,14 +70,14 @@ const gameController = {
       }
 
       const player = room.players.find(player => player._id.toString() === userId);
-      if (!player || player.role !== 'mafia') {
+      if (!player || player.role !== 'Mafia') {
         return res.status(403).json({ message: 'Not authorized to perform this action' });
       }
 
       const targetPlayer = room.players.id(mafiaTarget);
       if (targetPlayer) {
         targetPlayer.isAlive = false;
-        targetPlayer.status = 'dead';
+        targetPlayer.status = 'Dead';
         room.game.nightActions.mafiaTarget = mafiaTarget;
       }
 
@@ -102,7 +102,7 @@ const gameController = {
 
       const player = room.players.find(player => player._id.toString() === userId);
 
-      if (!player || player.role !== 'police') {
+      if (!player || player.role !== 'Police') {
         return res.status(403).json({ message: 'Not authorized to perform this action' });
       }
 
@@ -110,19 +110,19 @@ const gameController = {
 
       // Move to day phase if both actions are complete
       if (room.game.nightActions.mafiaTarget && room.game.nightActions.policeGuess) {
-        room.phase = 'day';
-        room.game.phase = 'day';
+        room.phase = 'Day';
+        room.game.phase = 'Day';
 
         const mafiaKilledPlayer = room.players.find(player => player._id.toString() === room.game.nightActions.mafiaTarget);
         if (mafiaKilledPlayer) {
           mafiaKilledPlayer.isAlive = false;
-          mafiaKilledPlayer.status = 'dead';
+          mafiaKilledPlayer.status = 'Dead';
         }
 
-        const mafiaPlayer = room.players.find(player => player.role === 'mafia');
+        const mafiaPlayer = room.players.find(player => player.role === 'Mafia');
         if (policeGuess === mafiaPlayer._id.toString()) {
           const message = `Police won! The mafia player ${mafiaPlayer.name} was correctly identified.`;
-          room.winner = 'police';
+          room.winner = 'Police';
         }
 
         await room.save();
@@ -194,7 +194,7 @@ const gameController = {
 
       // Check if all alive players have voted
       const allPlayersVoted = room.players.every(player =>
-        (player.status === 'dead' || player.hasVoted)  // Dead players are ignored, alive players must have voted
+        (player.status === 'Dead' || player.hasVoted)  // Dead players are ignored, alive players must have voted
       );
 
       if (!allPlayersVoted) {
@@ -221,13 +221,13 @@ const gameController = {
         });
 
         // Check if the voted-out player is a Mafia member
-        if (mostVotedPlayer.role === 'mafia') {
-          room.winner = 'civilian';
-          room.phase = 'gameOver'; // End the game if Mafia is eliminated
+        if (mostVotedPlayer.role === 'Mafia') {
+          room.winner = 'Civilian';
+          room.phase = 'GameOver'; // End the game if Mafia is eliminated
         } else {
           // Continue the game to the next phase
-          room.winner = 'mafia';
-          room.phase = 'gameOver'; // End the game if Mafia is not eliminated
+          room.winner = 'Mafia';
+          room.phase = 'GameOver'; // End the game if Mafia is not eliminated
 
           // Continue the game to the next phase
           // room.phase = 'night'; // Or 'day' depending on your game logic

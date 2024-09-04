@@ -127,9 +127,9 @@ const roomController = {
       const numCivilians = playerCount - numMafia - numPolice;
 
       // Create an array with the role distribution
-      let roles = Array(numMafia).fill('mafia')
-        .concat(Array(numPolice).fill('police'))
-        .concat(Array(numCivilians).fill('civilian'));
+      let roles = Array(numMafia).fill('Mafia')
+        .concat(Array(numPolice).fill('Police'))
+        .concat(Array(numCivilians).fill('Civilian'));
 
       // Shuffle the roles array
       roles = shuffleArray(roles);
@@ -141,7 +141,7 @@ const roomController = {
 
       // Set game status
       room.gameStarted = true;
-      room.phase = 'night';
+      room.phase = 'Night';
 
       await room.save();
 

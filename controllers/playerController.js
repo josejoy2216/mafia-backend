@@ -21,8 +21,8 @@ const playerController = {
       const newPlayer = {
         _id: new mongoose.Types.ObjectId(), 
         name: name, 
-        role: 'civilian', 
-        status: 'alive', 
+        role: 'Civilian', 
+        status: 'Alive', 
         isAlive: true, 
         canVote: true 
       };

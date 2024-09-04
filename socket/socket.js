@@ -45,6 +45,11 @@ const socket = (server) => {
       io.to(roomId).emit('policeWinMessage', message);
     });
 
+    socket.on('sendChatMessage', (chatMessage) => {
+      // Save chat to database if necessary
+      socket.to(chatMessage.roomId).emit('newChatMessage', chatMessage);
+    });
+
     socket.on('disconnect', () => {
       console.log('Client disconnected');
     });

@@ -26,6 +26,8 @@ app.use('/api/endgame', roomRoutes);
 app.use('/api/startgame', roomRoutes);
 app.use('/api/night-action/mafia/', roomRoutes);
 app.use('/api/night-action/police/', roomRoutes);
+app.use('/api/chat', roomRoutes);
+app.use('/api/getchat', roomRoutes);
 //app.use('/api/games', gameRoutes);
 
 const server = http.createServer(app);
