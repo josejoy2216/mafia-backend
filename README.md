@@ -21,7 +21,7 @@ Ensure you have the following installed:
 
 ### 1. Clone the Repository
 ```sh
-git clone https://github.com/your-repo-url.git
+git clone https://github.com/josejoy2216/mafia-backend.git
 cd mafia-backend
 ```
 
